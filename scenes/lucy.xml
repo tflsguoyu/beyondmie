@@ -1,0 +1,82 @@
+<scene version="2.2.1">
+	<integrator type="volpath">
+		<integer name="max_depth" value="-1"/>
+		<integer name="rr_depth" value="50"/>
+	</integrator>
+
+	<sensor type="perspective">
+		<string name="fov_axis" value="smaller"/>
+		<float name="fov" value="35"/>
+
+		<transform name="to_world">
+			<lookat origin="0 0 1" target="0 0 0" up="0 1 0"/>
+		</transform>
+
+		<sampler type="independent">
+			<integer name="sample_count" value="256"/>
+		</sampler>
+
+ 		<film id="film" type="hdrfilm">
+			<integer name="width" value="256"/>
+			<integer name="height" value="512"/>
+			<string name="pixel_format" value="rgb"/>
+		</film>
+	</sensor>
+
+	<medium type="homogeneous" id="myMedium">
+		<float name="scale" value="50"/>
+		<rgb name="sigma_t" value="1"/>
+		<rgb name="albedo" value="1 0.5 0.5"/>
+
+		<phase type="hg">
+			<float name="g" value="0.8"/>
+		</phase>
+
+<!-- 		<phase type="tabulated">
+			<string name="filename" value="$fn"/>
+		</phase> -->
+
+	</medium>
+
+	<bsdf type="diffuse" id="myBSDF1">
+	</bsdf>
+
+    <bsdf type="dielectric" id="myBSDF2">
+        <float name="int_ior" value="1.504"/>
+        <float name="ext_ior" value="1.0"/>
+    </bsdf>
+
+	<shape type="obj">
+		<string name="filename" value="../../results/in/mesh/lucy.obj"/>
+		<transform name="to_world">
+			<scale x="1" y="1" z="1"/>
+			<rotate x="1" angle="0"/>
+			<translate x="0" y="0" z="0"/>
+		</transform>
+
+		<ref id="myBSDF2"/>
+		<ref name="interior" id="myMedium"/>
+	</shape>
+
+	<emitter type="envmap">
+		<string name="filename" value="../../results/in/mesh/at_the_window.hdr"/>	
+		<transform name="to_world">
+			<scale x="1" y="1" z="1"/>
+			<rotate y="1" angle="-90"/>
+			<translate x="0" y="0" z="0"/>
+		</transform>	
+		<float name="scale" value="1"/>
+	</emitter>
+
+<!-- 	<emitter type="point">
+		<transform name="to_world">
+			<translate x="0" y="0" z="10"/>
+		</transform>
+		<spectrum name="intensity" value="200"/>
+	</emitter> -->
+
+<!-- 	<emitter type="constant">
+		<rgb name="radiance" value="0.02"/>
+	</emitter> -->
+
+</scene>
