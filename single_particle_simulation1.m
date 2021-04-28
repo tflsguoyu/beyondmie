@@ -113,6 +113,7 @@ function save_plot(fn, T_NM, fp_per_N1, fp_par_N1, fp_N1, MieData)
     legend
 
     saveas(gcf, fn);
+    close(gcf); 
 end
 
 function data = load_mieplot(fn)
