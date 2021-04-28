@@ -42,7 +42,7 @@ __device__ float assocLegendreFunction(int const l, int const m, float const ct,
 	int jj=0;
 	for (int lambda=l-m; lambda>=0; lambda-=2)
 	{
-		Plm = Plm + pow(st,m) * pow(ct,lambda) * plm_coeffs[jj*(2*LMAX+1)*(2*LMAX+1)+m*(2*LMAX+1)+l];
+		Plm = Plm + pow(st,(float)(m)) * pow(ct,(float)(lambda)) * plm_coeffs[jj*(2*LMAX+1)*(2*LMAX+1)+m*(2*LMAX+1)+l];
 		jj++;
 	}
 	return Plm;
@@ -54,8 +54,8 @@ __device__ float sphericalBesselLookup(int const p, float const r, float const *
 	float rPos = r/rResol;
 	int rIdx = int(rPos);    						// points to table position -1, because for each p, the first entry with respect to r in the spjTable is copied 
 	rPos -= rIdx; 							 	// (remainder of r/rResol) / rResol
-	float rPos2 = pow(rPos,2);
-	float rPos3 = pow(rPos,3);
+	float rPos2 = pow(rPos,2.f);
+	float rPos3 = pow(rPos,3.f);
 	spj = ((-rPos3+2*rPos2-rPos) * spjTable[rIdx*(2*LMAX+1)+p]
 			+ (3*rPos3-5*rPos2+2) * spjTable[(rIdx+1)*(2*LMAX+1)+p]
 			+ (-3*rPos3+4*rPos2+rPos) * spjTable[(rIdx+2)*(2*LMAX+1)+p]
