@@ -13,7 +13,7 @@
         </transform>
 
         <sampler type="independent">
-            <integer name="sample_count" value="1024"/>
+            <integer name="sample_count" value="2048"/>
         </sampler>
 
         <film id="film" type="hdrfilm">
@@ -24,9 +24,9 @@
     </sensor>
 
     <medium type="homogeneous" id="myMedium_tab">
-        <float name="scale" value="100"/>
-        <rgb name="sigma_t" value="1"/>
-        <rgb name="albedo" value="0.9 0.9 0.9"/>
+        <float name="scale" value="$scale"/>
+        <rgb name="sigma_t" value="$sigma_t"/>
+        <rgb name="albedo" value="$albedo"/>
 
         <phase type="tabulated">
             <string name="filename" value="$fn"/>
@@ -95,11 +95,11 @@
     <shape type="sphere">
         <transform name="to_world">
             <rotate x="1" angle="0"/>
-            <scale x="0.01" y="0.01" z="0.01"/>
-            <translate x="0.6" y="0.6" z="-1"/>
+            <scale x="0.1" y="0.1" z="0.1"/>
+            <translate x="0.7" y="0.6" z="-1"/>
         </transform>    
         <emitter type="area">
-            <spectrum name="radiance" value="20000"/>
+            <spectrum name="radiance" value="200"/>
         </emitter>
     </shape>
 

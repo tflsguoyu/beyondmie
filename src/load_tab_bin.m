@@ -1,5 +1,5 @@
 %% Testing
-% pmf = load_tab_bin('scenes/tab/test.bin');
+% pmf = load_tab_bin('scenes/tab/test1.bin');
 
 function pmf = load_tab_bin(fn)
     file_id = fopen(fn, 'r');

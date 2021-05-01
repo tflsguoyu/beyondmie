@@ -1,53 +1,39 @@
 disp('')
 disp('=============== New script ===============')
-close all; clear;
+% close all; clear;
 warning('off','all');
 addpath(genpath('celes/src'));
 addpath(genpath('src'));
 
 %% User defined parameters
-flag = 3; % 1 or 2 or 3
+particles = readmatrix('paras/particles1.txt'); % (x,y,z,radius,ior_real,ior_image)
+size_scale = 2;
 
-switch flag
-    case 1
-        % -------- example 1 ---------- %
+switch flag   
+    case 'red'
         %%% input %%%
-        wavelength = 0.46; %(um)
-        particles = readmatrix('paras/particles1.txt'); % (x,y,z,radius,ior_real,ior_image)
-        size_scale = 2;
-        distance_scale = 2;
+        wavelength = 0.70; %(um)
         %%% output %%%
-        out_dir = '../out/multiple/';
-        fn_mat = 'data_B.mat';
-        fn_plot = 'farfield_B.jpg';
-        fn_plot_particles = 'particles.jpg';
+        fn_mat = 'data_R.mat';
+        fn_plot = 'farfield_R.jpg';
+        fn_plot_particles = 'particles.jpg';    
     
-    case 2
-        % -------- example 1 ---------- %
+    case 'green'
         %%% input %%%
         wavelength = 0.53; %(um)
-        particles = readmatrix('paras/particles1.txt'); % (x,y,z,radius,ior_real,ior_image)
-        size_scale = 2;
-        distance_scale = 2;
         %%% output %%%
-        out_dir = '../out/multiple/';
         fn_mat = 'data_G.mat';
         fn_plot = 'farfield_G.jpg';
         fn_plot_particles = 'particles.jpg';
-    
-    case 3
-        % -------- example 1 ---------- %
+        
+    case 'blue'
         %%% input %%%
-        wavelength = 0.70; %(um)
-        particles = readmatrix('paras/particles1.txt'); % (x,y,z,radius,ior_real,ior_image)
-        size_scale = 2;
-        distance_scale = 2;
+        wavelength = 0.46; %(um)
         %%% output %%%
-        out_dir = '../out/multiple/';
-        fn_mat = 'data_R.mat';
-        fn_plot = 'farfield_R.jpg';
+        fn_mat = 'data_B.mat';
+        fn_plot = 'farfield_B.jpg';
         fn_plot_particles = 'particles.jpg';
-         
+       
 end
 
 %% Pre defined parameters
@@ -83,8 +69,9 @@ close(gcf);
 %% Simulation
 for i = 1:num_simul
     disp(['----------- similation ' num2str(i) ' of ' num2str(num_simul) ' ...']);
+    particles(:,1:3) = rotate_particles(particles(:,1:3));
     [p1A,p1B,p2A,p2B, ~,~] = wave_simulate(particles, wavelength, lmax, polar_angles, azimuthal_angles);
-    
+    continue
     T_per2_NM = abs(p1A).^2 + abs(p2A).^2;
     T_par2_NM = abs(p1B).^2 + abs(p2B).^2;
     T_NM_ = (T_per2_NM + T_par2_NM)./2;
@@ -140,7 +127,6 @@ function particles = rotate_particles(particles)
     particles = (roty(rand*2*pi) * particles')';
     particles = (rotz(rand*2*pi) * particles')';
 end
-
 
 function save_plot(fn, T_NM, fp_N1)
     figure('Position', [10 10 1500 500]);
