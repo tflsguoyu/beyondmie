@@ -1,10 +1,10 @@
-function [p1A,p1B,p2A,p2B, simul1, simul2] = wave_simulate(data, wavelength, lmax, theta, phi)
+function [p_NM, fpA,fpB,fp,Cs,Ct, simul1, simul2] = wave_simulate(data, wavelength, lmax, polar_angles, azimuthal_angles)
     fprintf(1, '\nstart simulation with horizontal incoming wave ...\n')
-    simul1 = simulate(data, 'TE', wavelength, lmax, theta, phi);
+    simul1 = simulate(data, 'TE', wavelength, lmax, polar_angles, azimuthal_angles);
     fprintf(1, 'done!\n')
     
     fprintf(1, '\nstart simulation with vertical incoming wave ...\n')
-    simul2 = simulate(data, 'TM', wavelength, lmax, theta, phi);
+    simul2 = simulate(data, 'TM', wavelength, lmax, polar_angles, azimuthal_angles);
     fprintf(1, 'done!\n')
 
     pwp1 = simul1.output.totalFieldPlaneWavePattern;
@@ -16,6 +16,29 @@ function [p1A,p1B,p2A,p2B, simul1, simul2] = wave_simulate(data, wavelength, lma
     p2A = double(gather(pwp2{1}.expansionCoefficients))';
     p2B = double(gather(pwp2{2}.expansionCoefficients))';
 
+    % polar N = 180, azimuthal M = 360
+    pA2_NM = abs(p1A).^2 + abs(p2A).^2;
+    pB2_NM = abs(p1B).^2 + abs(p2B).^2;
+    p_NM = (pA2_NM + pB2_NM)./2;
+
+    pA2 = trapz(azimuthal_angles,pA2_NM');
+    pB2 = trapz(azimuthal_angles,pB2_NM');
+    bintgrnd = trapz(azimuthal_angles,p_NM');
+    intgrl = trapz(polar_angles, bintgrnd.*sin(polar_angles));
+
+    pA = mean((p1A + p2A), 2);
+    pB = mean((p1B + p2B), 2);
+    assert( (real(pA(1)) - real(pB(1))) < 1e-6 );
+    RT = abs(real(pA(1)));
+
+    fpA = pA2./sum(pA2);
+    fpB = pB2./sum(pB2);
+    fp = bintgrnd./sum(bintgrnd);
+
+    k = 2*pi/wavelength;
+    Cs = intgrl/(k^2)  * 39.49;
+    Ct = 4*pi/(k^2)*RT * 2268.235;
+    
     function simul = simulate(data, polarization, wavelength, lmax, theta, phi)
         %% initialize the CELES class instances
 
