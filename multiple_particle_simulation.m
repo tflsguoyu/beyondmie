@@ -80,7 +80,8 @@ for i = 1:num_simul
     p_NM = (i-1)/i*p_NM + 1/i*p_NM_;
     %%% ----------------------- %%%
 
-    disp(Cs, Ct);
+    Cs
+    Ct
     %% Save to disk
     save([out_dir fn_mat], 'particles', 'wavelength', 'lmax', 'p_NM', 'fp', 'Cs', 'Ct');
     if mod(i,10)==0
