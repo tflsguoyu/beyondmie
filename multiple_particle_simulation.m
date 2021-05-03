@@ -6,8 +6,6 @@ addpath(genpath('celes/src'));
 addpath(genpath('src'));
 
 %% User defined parameters
-particles = readmatrix('paras/particles1.txt'); % (x,y,z,radius,ior_real,ior_image)
-
 switch flag   
     case 'red'
         %%% input %%%
@@ -38,6 +36,9 @@ end
 %% Pre defined parameters
 unit = 1e-6; % Convert um to m
 wavelength = wavelength * unit;
+
+distance_scale = 1;
+particles = readmatrix(fn_particles); % (x,y,z,radius,ior_real,ior_image)
 particles(:,1:4) = particles(:,1:4) * unit;
 particles(:,1:3) = particles(:,1:3) * distance_scale;
 particles(:,4) = particles(:,4) * size_scale;
@@ -48,8 +49,6 @@ lmax = ceil(6*radius_max/wavelength+1.5);
 k = 2*pi/wavelength;
 polar_angles = 0:pi/180:pi;
 azimuthal_angles = 0:pi/180:2*pi;
-
-num_simul = 50;
 
 if ~exist(out_dir, 'dir')
    mkdir(out_dir)
