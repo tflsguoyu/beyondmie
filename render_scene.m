@@ -1,4 +1,3 @@
-clear; close all;
 addpath(genpath('src'));
 
 %% Mitsuba1
@@ -13,7 +12,6 @@ addpath(genpath('src'));
 %% RGB rendering
 mistuba_dir = 'D:/gyDocuments/mitsuba2/dist/mitsuba.exe';
 scene_dir = 'scenes/lucy_mtb2_tab.xml';
-out_dir = '../results/out/multiple_1_1/';
 imgRGB_dir = [out_dir 'render.exr'];
 
 flag_list = {'R','G','B'};

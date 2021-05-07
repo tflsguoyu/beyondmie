@@ -1,7 +1,7 @@
 <scene version="2.2.1">
     <integrator type="volpath">
-        <integer name="max_depth" value="-1"/>
-        <integer name="rr_depth" value="50"/>
+        <integer name="max_depth" value="1000"/>
+        <integer name="rr_depth" value="1000"/>
     </integrator>
 
     <sensor type="perspective">
@@ -55,6 +55,10 @@
         <ref name="reflectance" id="texture-checkerboard" />
     </bsdf>
 
+    <bsdf type="diffuse" id="bsdf-plane2">
+        <rgb name="reflectance" value="0.2, 0.2, 0.2"/>
+    </bsdf>
+
     <shape type="obj">
         <string name="filename" value="mesh/lucy.obj"/>
         <transform name="to_world">
@@ -79,7 +83,7 @@
             <scale x="2" y="2" z="2"/>
             <translate x="0" y="-0.5" z="-1.5"/>
         </transform>
-        <ref name="bsdf" id="bsdf-plane"/>
+        <ref name="bsdf" id="bsdf-plane2"/>
     </shape>
 
 <!--    <emitter type="envmap">
@@ -89,7 +93,7 @@
             <rotate y="1" angle="-90"/>
             <translate x="0" y="0" z="0"/>
         </transform>    
-        <float name="scale" value="1"/>
+        <float name="scale" value="2"/>
     </emitter> -->
 
     <shape type="sphere">
