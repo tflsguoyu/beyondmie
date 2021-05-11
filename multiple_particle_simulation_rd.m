@@ -88,7 +88,7 @@ for i = 1:num_simul
     Ct
     %% Save to disk
     save([out_dir fn_mat(1:end-4) '_' num2str(rd_id) '.mat'], 'particles', 'wavelength', 'lmax', 'p_NM', 'fp', 'Cs', 'Ct');
-    if mod(i,10)==0
+    if mod(i,20)==0
         save_plot([out_dir fn_plot(1:end-4) '_' num2str(rd_id) '.jpg'], particles, p_NM, fp);
     end
 
@@ -140,7 +140,7 @@ function save_plot(fn, particles, p_NM, fp)
     subplot(2,2,4)
     plot_spheres(gca, particles(:,1:3), particles(:,4), particles(:,5)+1i*particles(:,6));
     axis equal;
-    max_r = 5e-5;
+    max_r = 5e-5/3;
     xlim([-max_r max_r])
     ylim([-max_r max_r])
     zlim([-max_r max_r])

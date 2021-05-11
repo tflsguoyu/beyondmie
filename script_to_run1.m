@@ -1,9 +1,11 @@
-close all; clear;
-fn_particles = 'paras/particles_1.txt';
-size_scale = 4/3;
-out_dir = '../results/out/multiple_1_1.5/';
-num_simul = 50;
-flag = 'red'; run('multiple_particle_simulation.m')
+run('multiple_particle_simulation_rd.m')
+
+% close all; clear;
+% fn_particles = 'paras/particles_1.txt';
+% size_scale = 4/3;
+% out_dir = '../results/out/multiple_1_1.5/';
+% num_simul = 50;
+% flag = 'red'; run('multiple_particle_simulation.m')
 % 
 % close all; clear;
 % fn_particles = 'paras/particles_50.txt';
