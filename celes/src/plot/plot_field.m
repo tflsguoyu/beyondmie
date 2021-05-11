@@ -58,10 +58,10 @@ dims = simulation.output.fieldPointsArrayDims;
 switch lower(fieldType)
     case 'total field'
         E = simulation.output.totalField;
+    case 'scattered and initial field'
+        E = simulation.output.scatteredField + simulation.output.initialField;
     case 'scattered field'
-        E = simulation.output.scatteredField + simulation.output.internalField;
-%         E = simulation.output.scatteredField;
-%         E = simulation.output.internalField;
+        E = simulation.output.scatteredField;
     case 'initial field'
         E = simulation.output.initialField;
 end
@@ -119,7 +119,6 @@ end
 for ti=1:numel(t)
     imagesc(x(1,:), y(:,1), real(fld*exp(-1i*t(ti))))% plot field on a xy plane
     colormap(cmap)
-    
     for i=1:length(idx)
         rectangle(ax, ...
                  'Position', [pArr(idx(i),xy)-rArr(idx(i)), [2,2]*rArr(idx(i))], ...
@@ -136,9 +135,8 @@ for ti=1:numel(t)
 
     ax.DataAspectRatio = [1,1,1];
     title([fieldType,', ',component])
-%     caxis(caxislim)
+    caxis(caxislim)
     colorbar
-    caxis([0 5])
     drawnow
 
     if exist('GIFoutputname','var')

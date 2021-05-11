@@ -1,7 +1,7 @@
 addpath(genpath('src'));
 
 img_all = [];
-for i = [1,2,3]
+for i = [1,1.5,2]
     img_row = [];
    for j = [1,50,100,500]
        img = exrread(['../results/out/multiple_' num2str(j) '_' num2str(i) '/render_R.exr']);

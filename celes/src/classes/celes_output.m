@@ -51,9 +51,6 @@ classdef celes_output < matlab.System
         %> power flux of the total field in -z direction
         totalFieldBackwardPower
 
-        %> power flux of the total field
-        totalFieldPower
-
         %> electric (near) field values of the initial field at the points
         %> specified in fieldPoints
         initialField

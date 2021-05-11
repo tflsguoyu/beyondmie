@@ -57,10 +57,10 @@ if isnan(imagRInorm)
     imagRInorm = imag(refractiveIndexArray);
 end
 
-realRInorm_repelem = repelem(realRInorm, sphres+2);
-realRInorm = repmat(realRInorm_repelem(:),[1,sphres+1]);
-imagRInorm_repelem = repelem(imagRInorm, sphres+2);
-imagRInorm = repmat(imagRInorm_repelem(:),[1,sphres+1]);
+realRInorm_ = repelem(realRInorm, sphres+2);
+realRInorm = repmat(realRInorm_(:),[1,sphres+1]);
+imagRInorm_ = repelem(imagRInorm, sphres+2);
+imagRInorm = repmat(imagRInorm_(:),[1,sphres+1]);
 
 hold(ax,'on')
 
@@ -82,7 +82,7 @@ CO(:,:,2) = zeros(size(zmerged)); % green
 CO(:,:,3) = realRInorm; % blue
 
 surf(xmerged, ymerged, zmerged, CO, 'LineStyle', 'none');
-view([180 0]);
+
 light; lighting gouraud
 ax.DataAspectRatio = [1,1,1];
 xlabel('x'); ylabel('y'); zlabel('z');

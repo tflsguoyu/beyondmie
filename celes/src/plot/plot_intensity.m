@@ -42,7 +42,7 @@
 %> @param       fieldType (string): select 'Total field', 'Scattered field'
 %>              or 'Initial field'
 %===============================================================================
-function g2 = plot_intensity(simulation,direction,polarization,fieldType)
+function plot_intensity(simulation,direction,polarization,fieldType)
 
 switch lower(fieldType)
     case 'total field'
@@ -56,7 +56,6 @@ end
 switch lower(polarization)
     case 'te'
         g2 = gather(abs(pwp{1}.expansionCoefficients).^2);
-%         g2 = gather(abs(mean(pwp{1}.expansionCoefficients,1)).^2);
     case 'tm'
         g2 = gather(abs(pwp{2}.expansionCoefficients).^2);
     case 'te+tm'
@@ -68,27 +67,13 @@ switch lower(direction)
     case 'forward intensity'
         forward_idcs = (cos(pwp{1}.polarAngles)>=0);
         g2 = g2(:,forward_idcs);
-        polarplot3d(double(g2).');
-        view([0,90])
-        set(gca,'DataAspectRatio',[1,1,1])
     case 'backward intensity'
         backward_idcs = (cos(pwp{1}.polarAngles)<=0);
         g2 = g2(:,backward_idcs);
         g2 = g2(:,end:-1:1);
-        polarplot3d(double(g2).');
-        view([0,90])
-        set(gca,'DataAspectRatio',[1,1,1])
-    case 'all intensity'
-%         g2 = g2(:,end:-1:1);
-%         g2 = (g2(1,:)+g2(90,:))/2;
-        px = g2(1,:);
-        py = g2(90,:);
-        up = (px+py)/2;
-        plot(px,'r'); hold on;
-        plot(py,'m');
-        plot(up,'k'); hold off;
-        g2 = mean(g2,1);
 end
 
-
+polarplot3d(double(g2).');
+view([0,90])
+set(gca,'DataAspectRatio',[1,1,1])
 end

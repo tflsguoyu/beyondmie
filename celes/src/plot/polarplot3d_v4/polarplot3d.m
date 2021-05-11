@@ -472,7 +472,6 @@ switch p.plottype
                    xlim(xlim*1.04); ylim(ylim*1.04);
                    axis equal; set(gca,'visible','off');
 end
-colorbar
 if ~isempty(p.plotprops), set(g,p.plotprops{:}); end
 
 
@@ -592,7 +591,7 @@ if r > 1 || m > 1
       xr = xi(:,1:u:end);
       yr = yi(:,1:u:end);
       zr = zi(:,1:u:end);
-%       plot3(xr,yr,zr,p.gridstyle,'Color',p.gridcolor,'LineWidth',1);
+      plot3(xr,yr,zr,p.gridstyle,'Color',p.gridcolor,'LineWidth',1);
    end
 
    % Draw azimuthal grid lines in radial direction (concentric arcs)
@@ -600,7 +599,7 @@ if r > 1 || m > 1
       xm = xi(1:v:end,:);
       ym = yi(1:v:end,:);
       zm = zi(1:v:end,:);
-%       plot3(xm',ym',zm',p.gridstyle,'Color',p.gridcolor,'LineWidth',1);
+      plot3(xm',ym',zm',p.gridstyle,'Color',p.gridcolor,'LineWidth',1);
    end
    hold off;
 end

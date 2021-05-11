@@ -10,6 +10,9 @@ function [p_NM, fpA,fpB,fp,Cs,Ct, simul1, simul2] = wave_simulate(data, waveleng
     pwp1 = simul1.output.totalFieldPlaneWavePattern;
     pwp2 = simul2.output.totalFieldPlaneWavePattern;
 
+%     pwp1 = simul1.output.scatteredFieldPlaneWavePattern;
+%     pwp2 = simul2.output.scatteredFieldPlaneWavePattern;
+
     p1A = double(gather(pwp1{1}.expansionCoefficients))';
     p1B = double(gather(pwp1{2}.expansionCoefficients))';
 
@@ -25,6 +28,7 @@ function [p_NM, fpA,fpB,fp,Cs,Ct, simul1, simul2] = wave_simulate(data, waveleng
     pB2 = trapz(azimuthal_angles,pB2_NM');
     bintgrnd = trapz(azimuthal_angles,p_NM');
     intgrl = trapz(polar_angles, bintgrnd.*sin(polar_angles));
+    p_NM = p_NM./intgrl;
 
     pA = mean((p1A + p2A), 2);
     pB = mean((p1B + p2B), 2);
@@ -125,7 +129,10 @@ function [p_NM, fpA,fpB,fp,Cs,Ct, simul1, simul2] = wave_simulate(data, waveleng
                                   'solver',                 solver);
 
         % define a grid of points where the field will be evaulated
-        [x,z] = meshgrid(-8000:1000:8000, -8000:1000:8000); y = zeros(size(x));
+        pos = data(:,1:3);
+        max_pos = max(1e-6, 1.2* max(abs(pos(:))));
+        [x,z] = meshgrid(linspace(-max_pos, max_pos, 150), linspace(-max_pos, max_pos, 150)); 
+        y = zeros(size(x));
         % initialize output class instance
         %   - fieldPoints:          Nx3 array (float) points where to evaluate the
         %                           electric near field
@@ -149,7 +156,7 @@ function [p_NM, fpA,fpB,fp,Cs,Ct, simul1, simul2] = wave_simulate(data, waveleng
         simul.evaluatePower;
 
         % evaluate field at output.fieldPoints
-        % simul.evaluateFields;
+%         simul.evaluateFields;
 
     end
     

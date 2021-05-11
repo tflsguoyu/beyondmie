@@ -92,9 +92,9 @@ for tau = 1:2
 end
 
 for jS = 1:simulation.input.particles.number
-    fprintf(1,repmat('\b',1,length(msg)));
-    msg = sprintf(' sphere %i of %i',jS,simulation.input.particles.number);
-    fprintf(1,msg);
+%     fprintf(1,repmat('\b',1,length(msg)));
+%     msg = sprintf(' sphere %i of %i',jS,simulation.input.particles.number);
+%     fprintf(1,msg);
 
     emnirk = exp(-1i*(simulation.input.particles.positionArray(jS,1)*kxGrid+ ...
                       simulation.input.particles.positionArray(jS,2)*kyGrid+ ...

@@ -110,7 +110,7 @@ classdef celes_simulation < matlab.System
         %> @return celes_simulation object with updated mieCoefficients
         % ======================================================================
         function obj = computeMieCoefficients(obj)
-            % fprintf(1,'compute Mie coefficients ...');
+            fprintf(1,'compute Mie coefficients ...');
             switch lower(obj.input.particles.type)
                 case 'sphere'
                     obj.tables.mieCoefficients = zeros(obj.input.particles.numUniquePairs, ...
@@ -132,7 +132,7 @@ classdef celes_simulation < matlab.System
                 otherwise
                     error('particle type not implemented')
             end
-            % fprintf(1,' done\n');
+            fprintf(1,' done\n');
         end
 
         % ======================================================================
@@ -142,9 +142,9 @@ classdef celes_simulation < matlab.System
         %> @return celes_simulation object with updated translationTable
         % ======================================================================
         function obj = computeTranslationTable(obj)
-            % fprintf(1,'compute translation table ...');
+            fprintf(1,'compute translation table ...');
             obj.tables.translationTable = translation_table_ab(obj.numerics.lmax);
-            % fprintf(1,' done\n');
+            fprintf(1,' done\n');
         end
 
         % ======================================================================
@@ -155,7 +155,7 @@ classdef celes_simulation < matlab.System
         %> @return celes_simulation object with updated initialFieldCoefficients
         % ======================================================================
         function obj = computeInitialFieldCoefficients(obj)
-            % fprintf(1,'compute initial field coefficients ...');
+            fprintf(1,'compute initial field coefficients ...');
             if isfinite(obj.input.initialField.beamWidth) && obj.input.initialField.beamWidth
                 fprintf(1,' Gaussian beam ...');
                 if obj.input.initialField.normalIncidence
@@ -165,10 +165,10 @@ classdef celes_simulation < matlab.System
                     error('this case is not implemented')
                 end
             else % infinite or 0 beam width
-                % fprintf(1,' plane wave ...');
+                fprintf(1,' plane wave ...');
                 obj.tables.initialFieldCoefficients = initial_field_coefficients_planewave(obj);
             end
-            % fprintf(1,' done\n');
+            fprintf(1,' done\n');
         end
 
         % ======================================================================
@@ -198,10 +198,10 @@ classdef celes_simulation < matlab.System
         %> @return celes_simulation object with updated initialFieldPower
         % ======================================================================
         function obj = computeScatteredFieldCoefficients(obj,varargin)
-            % fprintf(1,'compute scattered field coefficients ...\n');
+            fprintf(1,'compute scattered field coefficients ...\n');
             mmm = @(x) obj.masterMatrixMultiply(x);
-            % fprintf(1,'time                 dt[s]    #iter     residual\n');
-            % fprintf(1,'------------------------------------------------\n');
+            fprintf(1,'time                 dt[s]    #iter     residual\n');
+            fprintf(1,'------------------------------------------------\n');
             [b,convHist] = obj.numerics.solver.run(mmm,obj.tables.rightHandSide(:),varargin{:});
             obj.tables.scatteredFieldCoefficients = reshape(gather(b),size(obj.tables.rightHandSide));
             obj.output.convergenceHistory = convHist;
@@ -216,7 +216,7 @@ classdef celes_simulation < matlab.System
         %>         output.scatteredFieldPlaneWavePattern
         % ======================================================================
         function obj = computeScatteredFieldPWP(obj)
-            fprintf(1,' compute scattered field plane wave pattern: ');
+            fprintf(1,'compute scattered field plane wave pattern: ');
             obj.output.scatteredFieldPlaneWavePattern = ...
                                         scattered_field_plane_wave_pattern(obj);
             fprintf(1,' ... done\n');
@@ -231,7 +231,7 @@ classdef celes_simulation < matlab.System
         %>         output.totalFieldPlaneWavePattern
         % ======================================================================
         function obj = computeTotalFieldPWP(obj)
-            % fprintf(1,'compute total field coefficients table ...');
+            fprintf(1,'compute total field coefficients table ...');
             pwpScat = obj.output.scatteredFieldPlaneWavePattern;
             pwpIn = initial_field_plane_wave_pattern(obj);
             for pol = 2:-1:1
@@ -239,7 +239,7 @@ classdef celes_simulation < matlab.System
                 obj.output.totalFieldPlaneWavePattern{pol} = ...
                    obj.output.totalFieldPlaneWavePattern{pol}.addTo(pwpScat{pol});
             end
-            % fprintf(1,' done\n');
+            fprintf(1,' done\n');
         end
 
         % ======================================================================
@@ -251,17 +251,14 @@ classdef celes_simulation < matlab.System
         %>         output.totalFieldBackwardPower
         % ======================================================================
         function obj = computeTotalFieldPower(obj)
-            % fprintf(1,'compute total field power ...');
+            fprintf(1,'compute total field power ...');
             obj.output.totalFieldForwardPower = ...
                 gather(pwp_power_flux(obj.output.totalFieldPlaneWavePattern{1},obj,'forward')+ ...
                        pwp_power_flux(obj.output.totalFieldPlaneWavePattern{2},obj,'forward'));
             obj.output.totalFieldBackwardPower = ...
                 gather(pwp_power_flux(obj.output.totalFieldPlaneWavePattern{1},obj,'backward')+ ...
                        pwp_power_flux(obj.output.totalFieldPlaneWavePattern{2},obj,'backward'));
-            obj.output.totalFieldPower = ...
-                gather(pwp_power_flux(obj.output.totalFieldPlaneWavePattern{1},obj)+ ...
-                       pwp_power_flux(obj.output.totalFieldPlaneWavePattern{2},obj));
-            % fprintf(1,' done\n');
+            fprintf(1,' done\n');
         end
 
         % ======================================================================
@@ -279,7 +276,7 @@ classdef celes_simulation < matlab.System
             obj = obj.computeTotalFieldPWP;
             obj = obj.computeTotalFieldPower;
             obj.output.powerEvaluationTime = toc(tpow);
-            % fprintf(1,'power flux evaluated in %.1f seconds.\n',obj.output.powerEvaluationTime);
+            fprintf(1,'power flux evaluated in %.1f seconds.\n',obj.output.powerEvaluationTime);
         end
 
         % ======================================================================
@@ -390,14 +387,14 @@ classdef celes_simulation < matlab.System
         %> @return celes_simulation object with various fields updated
         % ======================================================================
         function obj = run(obj,varargin)
-            % print_logo
-            % print_parameters(obj)
+            print_logo
+            print_parameters(obj)
             mexfilename = ['coupling_matrix_multiply_CUDA_lmax', int2str(obj.numerics.lmax)];
             if ~(exist(mexfilename,'file')==3) % '3' means: MEX file exists
                 cuda_compile(obj.numerics.lmax);
             end
             tcomp = tic;
-            % fprintf(1,'starting simulation.\n');
+            fprintf(1,'starting simulation.\n');
             obj = obj.computeInitialFieldPower;
             obj = obj.computeMieCoefficients;
             obj = obj.computeTranslationTable;
@@ -418,12 +415,12 @@ classdef celes_simulation < matlab.System
             obj = obj.computeInitialFieldCoefficients;
             obj = obj.computeScatteredFieldCoefficients(varargin{:});
             obj.output.solverTime = toc(tsolv);
-            % fprintf(1,'------------------------------------------------\n');
-            % fprintf(1,'solver terminated in %.1f seconds.\n',obj.output.solverTime);
+            fprintf(1,'------------------------------------------------\n');
+            fprintf(1,'solver terminated in %.1f seconds.\n',obj.output.solverTime);
             obj.numerics.solver.preconditioner.factorizedMasterMatrices = []; % clear memory intensive fields
             obj.numerics.solver.preconditioner.masterMatrices = [];
             obj.output.runningTime = toc(tcomp);
-            fprintf(1,' simulation ran in %.1f seconds.\n',obj.output.runningTime);
+            fprintf(1,'simulation ran in %.1f seconds.\n',obj.output.runningTime);
         end
     end
 
