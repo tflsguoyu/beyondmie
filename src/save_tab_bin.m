@@ -6,5 +6,6 @@ function save_tab_bin(pmf, fn)
     n = length(pmf);
     fwrite(file_id, n, 'int');
     fwrite(file_id, flip(pmf), 'float');
+    fclose(file_id);
     disp(['Successful saved tabulated data to ' fn ', N = ' num2str(n) '.']);
 end

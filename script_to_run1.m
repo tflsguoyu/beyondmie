@@ -1,4 +1,9 @@
-run('multiple_particle_simulation_rd.m')
+clear; close all;
+out_dir = '../results/out/disk_N1000_0.3um_1/';
+run('render_scene_aniso.m')
+
+
+% run('multiple_particle_simulation_rd.m')
 
 % close all; clear;
 % fn_particles = 'paras/particles_1.txt';

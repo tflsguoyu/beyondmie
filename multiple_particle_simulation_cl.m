@@ -6,32 +6,9 @@ addpath(genpath('celes/src'));
 addpath(genpath('src'));
 
 %% User defined parameters
-switch flag   
-    case 'red'
-        %%% input %%%
-        wavelength = 0.70; %(um)
-        %%% output %%%
-        fn_mat = 'data_R.mat';
-        fn_plot = 'farfield_R.jpg';
-        fn_plot_particles = 'particles.jpg';    
-    
-    case 'green'
-        %%% input %%%
-        wavelength = 0.53; %(um)
-        %%% output %%%
-        fn_mat = 'data_G.mat';
-        fn_plot = 'farfield_G.jpg';
-        fn_plot_particles = 'particles.jpg';
-        
-    case 'blue'
-        %%% input %%%
-        wavelength = 0.46; %(um)
-        %%% output %%%
-        fn_mat = 'data_B.mat';
-        fn_plot = 'farfield_B.jpg';
-        fn_plot_particles = 'particles.jpg';
-       
-end
+wavelength = wl;
+fn_mat = sprintf('data_%d.mat', round(wavelength*1000));
+fn_plot = sprintf('farfield_%d.jpg', round(wavelength*1000));
 
 %% Pre defined parameters
 unit = 1e-6; % Convert um to m
@@ -54,7 +31,6 @@ if ~exist(out_dir, 'dir')
    mkdir(out_dir)
 end
 
-
 %% Simulation
 Cs = 0;
 Ct = 0;
@@ -76,7 +52,7 @@ for i = 1:num_simul
     Ct
     %% Save to disk
     save([out_dir fn_mat], 'particles', 'wavelength', 'lmax', 'p_NM', 'fp', 'Cs', 'Ct');
-    if mod(i,10)==0
+    if mod(i,num_simul)==0
         save_plot([out_dir fn_plot(1:end-4) '_' num2str(i) '.jpg'], particles, p_NM, fp);
     end
 
@@ -91,4 +67,5 @@ function particles = rotate_particles(particles)
     particles = (roty(rand*2*pi) * particles')';
     particles = (rotz(rand*2*pi) * particles')';
 end
+
 
