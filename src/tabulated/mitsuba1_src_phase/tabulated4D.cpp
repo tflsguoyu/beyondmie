@@ -46,9 +46,9 @@ public:
 
     TabulatedPhaseFunction(Stream *stream, InstanceManager *manager) : PhaseFunction(stream, manager) {
         m_filename = stream->readString();
-        loadPhaseFunction();
-        loadCDF();
-        loadDensity();
+        // loadPhaseFunction();
+        // loadCDF();
+        // loadDensity();
         configure();
     }
 
@@ -145,12 +145,16 @@ public:
 		Matrix4x4 rotationMatrix_phi = mitsuba::Transform::rotate(Vector(0.0f,0.0f,1.0f), -phi_i).getMatrix();
 		Matrix4x4 rotationMatrix_theta = mitsuba::Transform::rotate(Vector(0.0f,1.0f,0.0f), -theta_i).getMatrix();
 		Vector4 _wo = rotationMatrix_theta * (rotationMatrix_phi * Vector4(wo.x, wo.y, wo.z, 1.0f));
-		wo = Vector(_wo.y, _wo.x, -_wo.z); // Revert z, and switch x and y
+		wo = normalize(Vector(_wo.y, _wo.x, -_wo.z)); // Revert z, and switch x and y
 		
 		phi_o = radToDeg(atan2(wo.y, wo.x));
 		if (phi_o < 0) phi_o = phi_o + 360;
 
 		theta_o = radToDeg(acos(wo.z));
+		// if (int(theta_o) < 0 || int(theta_o) > 180) {
+		// 	std::cout << "findWo():theta_o:" << theta_o << std::endl;
+		// 	std::cout << "findWo():wo:" << wo.toString() << std::endl;
+		// }
 		// if (phi_o < 0)
 		// {
 		// 	std::cout << "phi_o:" << phi_o << std::endl;		
@@ -164,7 +168,7 @@ public:
 		Matrix4x4 rotationMatrix_phi = mitsuba::Transform::rotate(Vector(0.0f,0.0f,1.0f), phi_i).getMatrix();
 		Matrix4x4 rotationMatrix_theta = mitsuba::Transform::rotate(Vector(0.0f,1.0f,0.0f), theta_i).getMatrix();
 		Vector4 _wo = rotationMatrix_phi * (rotationMatrix_theta * Vector4(wo.y, wo.x, -wo.z, 1.0f));
-		wo = Vector(_wo.x, _wo.y, _wo.z);
+		wo = normalize(Vector(_wo.x, _wo.y, _wo.z));
 		if (is_mirror) wo.z = -wo.z;
 
 		pRec.wo = normalize(Frame(pRec.mRec.orientation).toWorld(wo)); 
@@ -182,6 +186,12 @@ public:
 		// phi_o is in (0,360)
 		// theta_o is in (0,180)
 		int index = int(theta_i) * m_num_slice + int(phi_o) * m_num_theta_o + int(theta_o);
+		// if (int(theta_i) < 0 || int(theta_i) > 90)
+		// 	std::cout << "Eval():theta_i:" << theta_i << std::endl;
+		// if (int(phi_o) < 0 || int(phi_o) > 360)
+		// 	std::cout << "Eval():phi_o:" << phi_o << std::endl;
+		// if (int(theta_o) < 0 || int(theta_o) > 180)
+		// 	std::cout << "Eval():theta_o:" << theta_o << std::endl;
 		// if (index < 0 || index > (m_phase_function.size()-1))
 		// {
 		// 	std::cout << "theta_i:" << theta_i << std::endl;	
@@ -203,8 +213,8 @@ public:
 
 		findWi(pRec, phi_i, theta_i, is_mirror);
 		int index = int(theta_i) * m_num_slice;
-		// if (index < 0 || index > (m_cdf.size()-1))
-		// 	std::cout << "GGGGGGGGGGGGGGGGGGGGG" << std::endl;
+		// if (int(theta_i) < 0 || int(theta_i) > 90)
+		// 	std::cout << "Sample():theta_i:" << theta_i << std::endl;
 
 		std::vector<Float> vs(&m_cdf[index], &m_cdf[index] + m_num_slice);
 		auto lo = std::lower_bound(vs.begin(), vs.end(), sample[0]) - vs.begin();
@@ -219,7 +229,7 @@ public:
 		findWo_inv(pRec, phi_i, theta_i, is_mirror, phi_o, theta_o);
 
 		// if ((index + lo) < 0 || (index + lo) > (m_phase_function.size()-1))
-		// 	std::cout << "YYYYYYYYYYYYYYYYYYYYYY" << std::endl;
+		// 	std::cout << "Sample():index+lo:" << index+lo << std::endl;
 		pdf = m_phase_function[index + lo];
 		// std::cout << "pRec.wo:" << pRec.wo.toString() << std::endl;
     	// std::cout << "pdf:" << pdf << std::endl;

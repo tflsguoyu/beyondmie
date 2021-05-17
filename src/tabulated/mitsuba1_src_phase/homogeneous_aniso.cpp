@@ -28,14 +28,14 @@ MTS_NAMESPACE_BEGIN
 class HomogeneousAnisotropicMedium : public Medium {
 public:
     HomogeneousAnisotropicMedium(const Properties &props) : Medium(props) {
-        m_density = props.getFloat("density");
+        m_scale = props.getFloat("scale");
         m_albedo = props.getSpectrum("albedo");
         m_orientation = props.getVector("orientation");
     }
 
     /* Unserialize from a binary data stream */
     HomogeneousAnisotropicMedium(Stream *stream, InstanceManager *manager) : Medium(stream, manager) {
-        m_density = stream->readFloat();
+        m_scale = stream->readFloat();
         m_albedo = Spectrum(stream);
         m_orientation = Vector(stream);
         configure();
@@ -44,7 +44,7 @@ public:
     /* Serialize the volume to a binary data stream */
     void serialize(Stream *stream, InstanceManager *manager) const {
         Medium::serialize(stream, manager);
-        stream->writeFloat(m_density);
+        stream->writeFloat(m_scale);
         m_albedo.serialize(stream);
         m_orientation.serialize(stream);
     }
@@ -117,17 +117,17 @@ public:
         return true;
     }
 
-	void setMediumProp(const Float &density, const Spectrum &albedo, const Vector &orientation) {
-		m_density = density;
-		m_albedo = albedo;
-		m_orientation = normalize(orientation);
-	}
+	// void setMediumProp(const Float &density, const Spectrum &albedo, const Vector &orientation) {
+	// 	m_scale = density;
+	// 	m_albedo = albedo;
+	// 	m_orientation = normalize(orientation);
+	// }
 
 
     std::string toString() const {
         std::ostringstream oss;
         oss << "HomogeneousAnisotropicMedium[" << endl
-            << "  density = " << m_density << "," << endl
+            << "  density = " << m_scale << "," << endl
             << "  albedo = " << m_albedo.toString() << "," << endl
             << "  orientation = " << m_orientation.toString() << "," << endl
             << "  phase = " << indent(m_phaseFunction->toString()) << endl
@@ -140,10 +140,11 @@ public:
 
 protected:
     inline Float lookupDensity(const Vector &d) const {
-        return m_density*m_phaseFunction->sigmaDir(dot(-d, m_orientation));
+        Vector wi = normalize(Frame(m_orientation).toLocal(-d)); 
+        return m_scale * m_phaseFunction->sigmaDir(wi.z);
     }
 
-    Float m_density;
+    Float m_scale;
     Spectrum m_albedo;
     Vector m_orientation;
 };
