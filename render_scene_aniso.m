@@ -10,7 +10,7 @@ for i = 1
     load_tabs_save_bin([out_dir 'data_' flag_list{i}], [tab_dir, '.bin']);
     img_dir = [out_dir 'render_' flag_list{i} '.exr'];
     
-    scale = 0.1;
+    scale = 1;
     albedo = 1;
     sigma_t = 1;
 
