@@ -21,7 +21,7 @@ particles(:,1:3) = particles(:,1:3) * distance_scale;
 particles(:,4) = particles(:,4) * size_scale;
 
 radius_max = max(particles(:,4));
-lmax = max(lmax_user, ceil(6*radius_max/wavelength+1.5));
+lmax = ceil(6*radius_max/wavelength+1.5);
 
 k = 2*pi/wavelength;
 polar_angles = 0:pi/180:pi;
