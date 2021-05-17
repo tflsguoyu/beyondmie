@@ -65,7 +65,8 @@ for m=-lmax:lmax
     for tau=1:2
         for l=max(1,abs(m)):lmax
             n=multi2single_index(1,tau,l,m,lmax);
-            aI(:,n) = 4 * E0 * exp(-1i*m*alpha) .* eikr .* transformation_coefficients(pilm,taulm,tau,l,m,simulation.input.initialField.pol,'dagger');
+            tmp = transformation_coefficients(pilm,taulm,tau,l,m,simulation.input.initialField.pol,'dagger');
+            aI(:,n) = 4 * E0 * exp(-1i*m*alpha) .* eikr .* tmp;
         end
     end
 end

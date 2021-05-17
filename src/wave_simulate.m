@@ -7,15 +7,19 @@ function [p_NM, fpA,fpB,fp,Cs,Ct, simul1, simul2] = wave_simulate(data, waveleng
     simul2 = simulate(data, 'TM', wavelength, lmax, polar_angles, azimuthal_angles);
     fprintf(1, 'done!\n')
 
-    pwp1 = simul1.output.totalFieldPlaneWavePattern;
-    pwp2 = simul2.output.totalFieldPlaneWavePattern;
+%     pwp1 = simul1.output.totalFieldPlaneWavePattern;
+%     pwp2 = simul2.output.totalFieldPlaneWavePattern;
 
-%     pwp1 = simul1.output.scatteredFieldPlaneWavePattern;
-%     pwp2 = simul2.output.scatteredFieldPlaneWavePattern;
+    pwp1 = simul1.output.scatteredFieldPlaneWavePattern;
+    pwp2 = simul2.output.scatteredFieldPlaneWavePattern;
 
     p1A = double(gather(pwp1{1}.expansionCoefficients))';
     p1B = double(gather(pwp1{2}.expansionCoefficients))';
 
+%     p1A_ = double(gather(pwp1_{1}.expansionCoefficients))';
+%     p1B_ = double(gather(pwp1_{2}.expansionCoefficients))';
+% 
+    
     p2A = double(gather(pwp2{1}.expansionCoefficients))';
     p2B = double(gather(pwp2{2}.expansionCoefficients))';
 
@@ -32,7 +36,7 @@ function [p_NM, fpA,fpB,fp,Cs,Ct, simul1, simul2] = wave_simulate(data, waveleng
 
     pA = mean((p1A + p2A), 2);
     pB = mean((p1B + p2B), 2);
-    assert( (real(pA(1)) - real(pB(1))) < 1e-6 );
+%     assert( (real(pA(1)) - real(pB(1))) < 1e-6 );
     RT = abs(real(pA(1)));
 
     fpA = pA2./sum(pA2);

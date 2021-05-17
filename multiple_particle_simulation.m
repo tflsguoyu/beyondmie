@@ -37,7 +37,7 @@ end
 unit = 1e-6; % Convert um to m
 wavelength = wavelength * unit;
 
-distance_scale = 1;
+distance_scale = 0.1;
 particles = readmatrix(fn_particles); % (x,y,z,radius,ior_real,ior_image)
 particles(:,1:4) = particles(:,1:4) * unit;
 particles(:,1:3) = particles(:,1:3) * distance_scale;
@@ -76,7 +76,7 @@ for i = 1:num_simul
     Ct
     %% Save to disk
     save([out_dir fn_mat], 'particles', 'wavelength', 'lmax', 'p_NM', 'fp', 'Cs', 'Ct');
-    if mod(i,10)==0
+    if mod(i,num_simul)==0
         save_plot([out_dir fn_plot(1:end-4) '_' num2str(i) '.jpg'], particles, p_NM, fp);
     end
 

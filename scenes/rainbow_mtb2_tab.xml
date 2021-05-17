@@ -1,0 +1,123 @@
+<scene version="2.2.1">
+    <integrator type="volpath">
+        <integer name="max_depth" value="100"/>
+        <integer name="rr_depth" value="1000"/>
+    </integrator>
+
+    <sensor type="perspective">
+        <string name="fov_axis" value="smaller"/>
+        <float name="fov" value="60"/>
+
+        <transform name="to_world">
+            <lookat origin="0 -0.2 2" target="0 0 0" up="0 1 0"/>
+        </transform>
+
+        <sampler type="independent">
+            <integer name="sample_count" value="100"/>
+        </sampler>
+
+        <film id="film" type="hdrfilm">
+            <integer name="width" value="256"/>
+            <integer name="height" value="256"/>
+            <string name="pixel_format" value="rgb"/>
+        </film>
+    </sensor>
+
+    <medium type="homogeneous" id="myMedium_tab">
+        <float name="scale" value="$scale"/>
+        <rgb name="sigma_t" value="$sigma_t"/>
+        <rgb name="albedo" value="$albedo"/>
+
+        <phase type="tabulated">
+            <string name="filename" value="$fn"/>
+        </phase>
+
+    </medium>
+
+    <bsdf type="diffuse" id="myBSDF_diffuse"/>
+
+    <bsdf type="dielectric" id="myBSDF_dielectric">
+        <float name="int_ior" value="1.504"/>
+        <float name="ext_ior" value="1.0"/>
+    </bsdf>
+
+    <bsdf type="null" id="myBSDF_null"/>
+
+    <texture type="checkerboard" id="texture-checkerboard">
+        <rgb name="color0" value="0.4" />
+        <rgb name="color1" value="0.2" />
+        <transform name="to_uv">
+            <scale x="8" y="8" />
+        </transform>
+    </texture>
+
+    <bsdf type="diffuse" id="bsdf-plane">
+        <ref name="reflectance" id="texture-checkerboard" />
+    </bsdf>
+
+    <bsdf type="diffuse" id="bsdf-plane2">
+        <rgb name="reflectance" value="0.2, 0.2, 0.2"/>
+    </bsdf>
+
+    <shape type="obj">
+        <string name="filename" value="mesh/cube.obj"/>
+        <transform name="to_world">
+            <scale x="1.1" y="1.1" z="0.05"/>
+            <rotate x="1" angle="0"/>
+            <translate x="0" y="0" z="0"/>
+        </transform>
+    
+        <ref id="myBSDF_null"/>
+        <ref name="interior" id="myMedium_tab"/>
+    </shape>
+
+<!--     <shape type="serialized" id="shape-plane">
+        <string name="filename" value="mesh/matpreview.serialized" />
+        <integer name="shape_index" value="0" />
+        <transform name="to_world">
+            <rotate x="1" angle="-90"/>
+            <scale x="2" y="2" z="2"/>
+            <translate x="0" y="-0.5" z="-1.5"/>
+        </transform>
+        <ref name="bsdf" id="bsdf-plane2"/>
+    </shape> -->
+
+<!--    <emitter type="envmap">
+        <string name="filename" value="env/lakeside_2k.hdr"/> 
+        <transform name="to_world">
+            <scale x="0.5" y="0.5" z="0.5"/>
+            <rotate y="1" angle="36.24"/>
+            <translate x="0" y="0" z="0"/>
+        </transform>    
+        <float name="scale" value="1"/>
+    </emitter> -->
+
+    <shape type="sphere">
+        <transform name="to_world">
+            <rotate x="1" angle="0"/>
+            <scale x="0.1" y="0.1" z="0.1"/>
+            <translate x="0" y="0.3" z="-1"/>
+        </transform>    
+        <emitter type="area">
+            <spectrum name="radiance" value="50"/>
+        </emitter>
+    </shape>
+
+<!--     <shape type="sphere">
+        <transform name="to_world">
+            <rotate x="1" angle="0"/>
+            <scale x="0.3" y="0.3" z="0.3"/>
+            <translate x="0" y="1" z="-5"/>
+        </transform>    
+        <emitter type="area">
+            <spectrum name="radiance" value="10"/>
+        </emitter>
+    </shape>
+ -->
+<!--     <emitter type="directional">
+        <spectrum name="irradiance" value="1"/>
+        <vector name="direction" value="0,-2, 1"/>
+    </emitter> -->
+
+
+</scene>

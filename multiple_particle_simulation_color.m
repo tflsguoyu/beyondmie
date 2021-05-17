@@ -14,14 +14,14 @@ fn_plot = sprintf('farfield_%d.jpg', round(wavelength*1000));
 unit = 1e-6; % Convert um to m
 wavelength = wavelength * unit;
 
-distance_scale = 1;
+distance_scale = 0.1;
 particles = readmatrix(fn_particles); % (x,y,z,radius,ior_real,ior_image)
 particles(:,1:4) = particles(:,1:4) * unit;
 particles(:,1:3) = particles(:,1:3) * distance_scale;
 particles(:,4) = particles(:,4) * size_scale;
 
 radius_max = max(particles(:,4));
-lmax = ceil(6*radius_max/wavelength+1.5);
+lmax = max(lmax_user, ceil(6*radius_max/wavelength+1.5));
 
 k = 2*pi/wavelength;
 polar_angles = 0:pi/180:pi;

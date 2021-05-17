@@ -2,16 +2,18 @@ addpath(genpath('src'));
 
 %% RGB rendering
 mistuba_dir = 'D:/gyDocuments/mitsuba/dist/mitsuba.exe';
-scene_dir = 'scenes/box_mtb1_anisotab.xml';
+scene_dir = 'scenes/box_mtb1_hg.xml';
+% scene_dir = 'scenes/box_mtb1_anisotab.xml';
 
 flag_list = {'R','G','B'};
 for i = 1
     tab_dir = [out_dir 'tab_' flag_list{i}];
-    load_tabs_save_bin([out_dir 'data_' flag_list{i}], [tab_dir, '.bin']);
+%     load_tabs_save_bin([out_dir 'data_' flag_list{i}], [tab_dir, '.bin']);
+    save_bin_hg([tab_dir, '.bin']);
     img_dir = [out_dir 'render_' flag_list{i} '.exr'];
     
-    scale = 0.1;
-    albedo = 1;
+    scale = 1;
+    albedo = 0.95;
     sigma_t = 1;
 
     render_mitsuba1(...
