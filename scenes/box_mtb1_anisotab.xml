@@ -62,7 +62,7 @@
 
     <shape type="cube">
         <transform name="toWorld">
-            <scale x="0.2" y="0.2" z="0.02"/>
+            <scale x="0.2" y="0.2" z="0.2"/>
             <rotate x="1" angle="0"/>
             <translate x="0" y="0" z="0"/>
         </transform>

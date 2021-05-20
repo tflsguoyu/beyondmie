@@ -5,9 +5,8 @@ warning('off','all');
 addpath(genpath('celes/src'));
 addpath(genpath('src'));
 
-N_particle = 1000;
+N_particle = 50;
 particle_size = 0.3;
-out_dir = ['../results/out/disk_N' num2str(N_particle) '_' num2str(particle_size) 'um_test/'];
 num_simul = 20;
 flag = 'red';
 
@@ -43,9 +42,7 @@ k = 2*pi/wavelength;
 polar_angles = 0:pi/180:pi;
 azimuthal_angles = 0:pi/180:2*pi;
 
-if ~exist(out_dir, 'dir')
-   mkdir(out_dir)
-end
+
 
 
 %% Simulation
@@ -62,8 +59,10 @@ for rd = rd_list
 for i = 1:num_simul
     disp(['----------- similation ' num2str(i) ' of ' num2str(num_simul) ' ...']);
     
-    mu = [0,0,0]; sigma = [15,15,1]/3;
+    mu = [0,0,0]; sigma = [15,15,1]/10;
     particles = zeros(N_particle, 6);
+    r = 4;
+%     particles(:,1:2) = [rand(N_particle,1)*2-1, rand(N_particle,1)*2-1] *unit * r;
     particles(:,1:3) = [normrnd(mu(1),sigma(1),[N_particle,1])* unit, ...
                         normrnd(mu(2),sigma(2),[N_particle,1])* unit ...
                         normrnd(mu(3),sigma(3),[N_particle,1])* unit];
@@ -71,6 +70,15 @@ for i = 1:num_simul
     particles(:,4) = particle_size * unit;
     particles(:,5) = 1.331721;
     particles(:,6) = 0;
+    
+%     remove_id = [];
+%     for i = 1:N_particle
+%         if particles(i,1)^2+particles(i,2)^2+particles(i,3)^2 > (r*unit)^2
+%             remove_id = [remove_id; i];
+%         end
+%     end
+%     particles(remove_id, :) = [];
+%     N_particle = size(particles,1);
 
     radius_max = max(particles(:,4));
     lmax = ceil(6*radius_max/wavelength+1.5);
@@ -87,8 +95,12 @@ for i = 1:num_simul
     Cs
     Ct
     %% Save to disk
+    out_dir = ['../results/out/disk_N' num2str(N_particle) '_' num2str(particle_size) 'um/'];
+    if ~exist(out_dir, 'dir')
+        mkdir(out_dir)
+    end
     save([out_dir fn_mat(1:end-4) '_' num2str(rd_id) '.mat'], 'particles', 'wavelength', 'lmax', 'p_NM', 'fp', 'Cs', 'Ct');
-    if mod(i,20)==0
+    if mod(i,num_simul)==0
         save_plot([out_dir fn_plot(1:end-4) '_' num2str(rd_id) '.jpg'], particles, p_NM, fp);
     end
 
