@@ -12,7 +12,7 @@ addpath(genpath('src'));
 %% RGB rendering
 mistuba_dir = 'D:/gyDocuments/mitsuba2/dist/mitsuba.exe';
 scene_dir = 'scenes/lucy_mtb2_tab.xml';
-imgRGB_dir = [out_dir 'render.exr'];
+% imgRGB_dir = [out_dir 'render.exr'];
 
 flag_list = {'R','G','B'};
 for i = 1
@@ -22,22 +22,22 @@ for i = 1
     save_tab_bin(fp, tab_dir);
     img_dir = [out_dir 'render_' flag_list{i} '.exr'];
     
-%     N = 500/height(particles);
-%     R = 86.1*1e-6;
-%     V = 4/3*pi*R^3;
-%     pho = N/V
-%     scale = pho * Ct
-%     sigma_t = 1;
+    N = 500/height(particles);
+    R = 8.61*1e-6;
+    V = 4/3*pi*R^3;
+    pho = N/V
+    scale = pho * Ct/1000
+    sigma_t = 1;
 %     albedo = min(max(Cs/Ct,0),1)
-% %     albedo = 0.98;
-% 
-%     render_mitsuba2(...
-%         mistuba_dir, ...
-%         img_dir, ...
-%         scene_dir, ...
-%         false, ...
-%         scale, sigma_t, albedo, ...
-%         tab_dir);
+    albedo = 1;
+
+    render_mitsuba2(...
+        mistuba_dir, ...
+        img_dir, ...
+        scene_dir, ...
+        false, ...
+        scale, sigma_t, albedo, ...
+        tab_dir);
 end
 
 % img_R = exrread([out_dir 'render_R.exr']);

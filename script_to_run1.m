@@ -13,14 +13,14 @@
 %     run('render_scene_color.m')
 % end
 
-clear; close all;
-out_dir = '../results/out/color_N1_500nm/';
-wl_list = linspace(0.4,0.7,50);
-ct_list = [];
-for wl = wl_list
-    run('render_scene_color.m')
-end
-save([out_dir 'ct_list.mat'], 'ct_list');
+% clear; close all;
+% out_dir = '../results/out/color_N1_500nm/';
+% wl_list = linspace(0.4,0.7,50);
+% ct_list = [];
+% for wl = wl_list
+%     run('render_scene_color.m')
+% end
+% save([out_dir 'ct_list.mat'], 'ct_list');
 
 % run('multiple_particle_simulation_aniso.m')
 
@@ -88,42 +88,50 @@ save([out_dir 'ct_list.mat'], 'ct_list');
 % flag = 'red'; run('multiple_particle_simulation.m')
 
 % clear; close all;
-% out_dir = '../results/out/multiple_1_1.5/';
+% out_dir = '../results/out/multiple_N1_300nm/';
 % run('render_scene.m')
 % 
 % clear; close all;
-% out_dir = '../results/out/multiple_N50_300nm/';
+% out_dir = '../results/out/multiple_N1_400nm/';
 % run('render_scene.m')
 % 
 % clear; close all;
-% out_dir = '../results/out/multiple_N50_400nm/';
+% out_dir = '../results/out/multiple_N1_500nm/';
 % run('render_scene.m')
-% 
-% clear; close all;
-% out_dir = '../results/out/multiple_N50_500nm/';
-% run('render_scene.m')
-% 
-% clear; close all;
-% out_dir = '../results/out/multiple_N100_300nm/';
-% run('render_scene.m')
-% 
-% clear; close all;
-% out_dir = '../results/out/multiple_N100_400nm/';
-% run('render_scene.m')
-% 
-% clear; close all;
-% out_dir = '../results/out/multiple_N100_500nm/';
-% run('render_scene.m')
-% 
-% clear; close all;
-% out_dir = '../results/out/multiple_N500_300nm/';
-% run('render_scene.m')
-% 
-% clear; close all;
-% out_dir = '../results/out/multiple_N500_400nm/';
-% run('render_scene.m')
-% 
-% clear; close all;
-% out_dir = '../results/out/multiple_N500_500nm/';
-% run('render_scene.m')
+
+clear; close all;
+out_dir = '../results/out/multiple_N50_300nm/';
+run('render_scene.m')
+
+clear; close all;
+out_dir = '../results/out/multiple_N50_400nm/';
+run('render_scene.m')
+
+clear; close all;
+out_dir = '../results/out/multiple_N50_500nm/';
+run('render_scene.m')
+
+clear; close all;
+out_dir = '../results/out/multiple_N100_300nm/';
+run('render_scene.m')
+
+clear; close all;
+out_dir = '../results/out/multiple_N100_400nm/';
+run('render_scene.m')
+
+clear; close all;
+out_dir = '../results/out/multiple_N100_500nm/';
+run('render_scene.m')
+
+clear; close all;
+out_dir = '../results/out/multiple_N500_300nm/';
+run('render_scene.m')
+
+clear; close all;
+out_dir = '../results/out/multiple_N500_400nm/';
+run('render_scene.m')
+
+clear; close all;
+out_dir = '../results/out/multiple_N500_500nm/';
+run('render_scene.m')
 
