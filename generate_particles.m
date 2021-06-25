@@ -21,13 +21,13 @@ addpath(genpath('src'));
 % data = readmatrix('paras/particles_500.txt');
 % plot3(data(:,1),data(:,2),data(:,3),'k.');
 % 
-data = readmatrix('paras/particles_100.txt');
-plot3(data(:,1),data(:,2),data(:,3)*0.1,'b.'); axis equal
+% data = readmatrix('paras/particles_100.txt');
+% plot3(data(:,1),data(:,2),data(:,3)*0.1,'b.'); axis equal
 % 
 % data = readmatrix('paras/particles_50.txt');
 % plot3(data(:,1),data(:,2),data(:,3),'m.');
 % 
-% data = readmatrix('paras/particles_10.txt');
+% data = readmatrix('paras/particles_20.txt');
 % plot3(data(:,1),data(:,2),data(:,3),'g.');
 % 
 % data = readmatrix('paras/particles_1.txt');
@@ -46,12 +46,12 @@ plot3(data(:,1),data(:,2),data(:,3)*0.1,'b.'); axis equal
 %     data_flag = sqrt(data(:,1).^2+data(:,2).^2+data(:,3).^2) > r;
 %     data(data_flag, :) = [];
 %     size(data, 1)
-%     if size(data, 1) <= 50
+%     if size(data, 1) <= 20
 %        break; 
 %     end
 % end
 % 
-% writematrix(data, 'paras/particles_50.txt');
+% writematrix(data, 'paras/particles_20.txt');
 
 
 %% 

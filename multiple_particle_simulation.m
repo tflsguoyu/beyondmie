@@ -37,7 +37,6 @@ end
 unit = 1e-6; % Convert um to m
 wavelength = wavelength * unit;
 
-distance_scale = 0.1;
 particles = readmatrix(fn_particles); % (x,y,z,radius,ior_real,ior_image)
 particles(:,1:4) = particles(:,1:4) * unit;
 particles(:,1:3) = particles(:,1:3) * distance_scale;
@@ -63,8 +62,9 @@ p_NM = 0;
 for i = 1:num_simul
     disp(['----------- similation ' num2str(i) ' of ' num2str(num_simul) ' ...']);
     particles(:,1:3) = rotate_particles(particles(:,1:3));
+    tic
     [p_NM_, ~,~,fp_,Cs_,Ct_, ~,~] = wave_simulate(particles, wavelength, lmax, polar_angles, azimuthal_angles);
-    
+    toc
     %%% ------ averaging ------ %%%
     Cs = (i-1)/i*Cs + 1/i*Cs_;
     Ct = (i-1)/i*Ct + 1/i*Ct_;

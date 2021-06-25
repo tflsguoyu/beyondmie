@@ -43,9 +43,10 @@ for i = 1:num_simul
     radius_max = max(particles(:,4));
     lmax = ceil(6*radius_max/wavelength+1.5);
     
-    
+    tic
     [p_NM_, ~,~,fp_,Cs_,Ct_, ~,~] = wave_simulate(particles, wavelength, lmax, polar_angles, azimuthal_angles);
-    
+    toc
+
     %%% ------ averaging ------ %%%
     Cs = (i-1)/i*Cs + 1/i*Cs_;
     Ct = (i-1)/i*Ct + 1/i*Ct_;

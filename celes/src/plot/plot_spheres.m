@@ -87,5 +87,5 @@ light; lighting gouraud
 ax.DataAspectRatio = [1,1,1];
 xlabel('x'); ylabel('y'); zlabel('z');
 
-hold(ax,'off')
+% hold(ax,'off')
 end

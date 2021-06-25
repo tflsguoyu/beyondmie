@@ -9,12 +9,12 @@ addpath(genpath('src'));
 
 %%% input %%%
 wavelength = 0.6; %(um)
-particles = [0,0,0,0.3,1.331721,0]; % (x,y,z,radius,ior_real,ior_image)
-fn_mieplot = 'paras/mieplot/0.300_0.600_1.331721_0.txt';
+particles = [0,0,0,0.9,1.331721,0]; % (x,y,z,radius,ior_real,ior_image)
+fn_mieplot = 'paras/mieplot/0.900_0.600_1.331721_0.txt';
 %%% output %%%
 out_dir = '../results/out/single/';
-fn_mat = 'data1.mat';
-fn_plot = 'farfield1.jpg';
+fn_mat = 'data2.mat';
+fn_plot = 'farfield2.jpg';
 
 %% Load mie results
 MieData = load_mieplot(fn_mieplot);
@@ -35,13 +35,62 @@ if ~exist(out_dir, 'dir')
 end
 
 %% Simulation
-[p_NM, fpA,fpB,fp,Cs,Ct, ~,~] = wave_simulate(particles, wavelength, lmax, polar_angles, azimuthal_angles);
+% [p_NM, fpA,fpB,fp,Cs,Ct, ~,~] = wave_simulate(particles, wavelength, lmax, polar_angles, azimuthal_angles);
 
 %% Save to disk
-save([out_dir, fn_mat], 'particles', 'wavelength', 'lmax', 'p_NM', 'fpA', 'fpB', 'fp', 'Cs', 'Ct');
-save_plot([out_dir fn_plot], p_NM, fpA, fpB, fp, MieData);
+% save([out_dir, fn_mat], 'particles', 'wavelength', 'lmax', 'p_NM', 'fpA', 'fpB', 'fp', 'Cs', 'Ct');
+% save_plot([out_dir fn_plot], p_NM, fpA, fpB, fp, MieData);
 
+load([out_dir, fn_mat]);
 
+%%
+% fig2 = figure('Position', [100 400 512 512]);
+% hold on
+% % polar_plot([fpA(:)';fpB(:)';fp(:)'], [[0.4940 0.1840 0.5560]; [0.4660 0.6740 0.1880]; [0.8500 0.3250 0.0980]]);
+%     plot(log(MieData(:,1)/sum(MieData(:,1))),'Color', [0.4940 0.1840 0.5560], 'LineWidth',3); 
+%     plot(log(MieData(:,2)/sum(MieData(:,2))),'Color', [0.4660 0.6740 0.1880], 'LineWidth',3); 
+%     plot(log(MieData(:,3)/sum(MieData(:,3))),'Color', [0.8500 0.3250 0.0980], 'LineWidth',3); 
+%     plot(log(fpA),':', 'Color', [0.4940 0.1840 0.5560],'LineWidth',6); 
+%     plot(log(fpB),':','Color', [0.4660 0.6740 0.1880],'LineWidth',6); 
+%     plot(log(fp),':','Color', [0.8500 0.3250 0.0980],'LineWidth',6); 
+% legend({'Lorenz-Mie: Perpendicular', 'Lorenz-Mie: Parallel', 'Lorenz-Mie: Unpolarised', ...
+%     'Ours: Perpendicular', 'Ours: Parallel', 'Ours: Unpolarised'}, ...
+%     'Location','northeast', 'FontSize',14,'TextColor','black');%legend('boxoff')
+% hold off
+% box on; 
+% set(gca,'TickLength',[0 0])
+% axis([0 180 -14 0])
+% xticks([0 90 180]); xticklabels({'0','90','180'})
+% a = get(gca,'XTickLabel');
+% set(gca,'XTickLabel',a,'fontsize',14)
+% xlabel('Polar angle', 'FontSize',18)
+% ylabel('Intensity (log scale)', 'FontSize',18)
+% saveas(gca, 'pf_test.png');
+% im = imread('pf_test.png');
+% [h,w,~] = size(im);
+% % a_crop = round(h * 0.08);
+% a_crop = round(h * 0); shift = 0;
+% im = im(a_crop+1+shift: end-a_crop+shift,a_crop+1: end-a_crop,:);
+% imwrite(im, 'pf_test.png');
+
+%%
+mie = MieData(:,3)/sum(MieData(:,3));
+
+fig2 = figure('Position', [100 400 500 500]);
+hold on
+polar_plot1([mie(:)';fp(:)'], [[0.4940 0.1840 0.5560];[0.4660 0.6740 0.1880]], 1);
+legend({'Lorenz-Mie', 'Ours'}, 'Location','northwest', 'FontSize',15,'TextColor','black');legend('boxoff')
+hold off
+saveas(gca, ['tmp.png']);
+im = imread(['tmp.png']);
+[h,w,~] = size(im);
+a_crop = round(h * 0.08);
+shift = -10;
+im = im(a_crop+1+shift: end-a_crop+shift,   a_crop+1: end-a_crop/2,:);
+imwrite(im, ['tmp.png']);
+close all;
+
+%%
 function save_plot(fn, p_NM, fpA, fpB, fp, MieData)
     figure('Position', [10 10 1500 500]);
 
