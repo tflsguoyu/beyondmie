@@ -54,7 +54,8 @@ function polar_plot3(p, c, logscale)
      polar_angles = 0:pi/180:pi;
      intgrl = trapz(polar_angles, (p.*repmat(sin(polar_angles),[N,1]))');
      p = p./repmat(intgrl', [1,M]);
-       
+    
+   p = p*0.8;    
     % Generate upper half phase function in polar->(x,y) coordinate
     theta_rad = linspace(0,180,M)/180*pi;
     polar = cat(3, ...

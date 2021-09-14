@@ -15,7 +15,7 @@ function polar_plot2(p, c, logscale)
     R = 0.00;
     
    %% plot base
-    unit_all = linspace(0,1,6);
+    unit_all = linspace(0,0.8,5);
     axis_unit = 2.;
 %     axis_unit = 0.058;
     
@@ -27,7 +27,7 @@ function polar_plot2(p, c, logscale)
         h = plot(base(:,1)*unit, base(:,2)*unit, ':', 'LineWidth', 1, 'Color', [0.7 0.7 0.7]);
         h.Annotation.LegendInformation.IconDisplayStyle = 'off';
     end
-    % plot lines
+%     % plot lines
     for theta = 0:45:360
         h = plot([0, max(unit_all)*cos(theta/180*pi)], [0, max(unit_all)*sin(theta/180*pi)], ':', 'LineWidth', 1,'Color', [0.7 0.7 0.7]);
         h.Annotation.LegendInformation.IconDisplayStyle = 'off';
@@ -41,19 +41,20 @@ function polar_plot2(p, c, logscale)
 %     annotation('textarrow',x,y,'FontSize',13,'Linewidth',2)
 %     annotation('textbox',[.51 .28 .7 .3],'EdgeColor','none','String','Forward','FontSize',15,'Linewidth',2)
     x = [0.55 0.8];   % adjust length and location of arrow 
-    y = [0.33 0.33];
+    y = [0.23 0.23];
     annotation('textarrow',x,y,'FontSize',13,'Linewidth',2)
-    annotation('textbox',[.58 .1 .7 .3],'EdgeColor','none','String','Forward','FontSize',15,'Linewidth',2)
+    annotation('textbox',[.58 .0 .7 .3],'EdgeColor','none','String','Forward','FontSize',15,'Linewidth',2)
     
     
 	%% Plot phase functions
     % convert pdf to a mannual defined scale for better visulization 
-    if logscale
-     p = log(p)+13;
-    end
-     polar_angles = 0:pi/180:pi;
-     intgrl = trapz(polar_angles, (p.*repmat(sin(polar_angles),[N,1]))');
-     p = p./repmat(intgrl', [1,M]);
+%     if logscale
+%      p = log(p)+13;
+%     end
+%      polar_angles = 0:pi/180:pi;
+%      intgrl = trapz(polar_angles, (p.*repmat(sin(polar_angles),[N,1]))');
+%      p = p./repmat(intgrl', [1,M]);
+%     p=p;
        
     % Generate upper half phase function in polar->(x,y) coordinate
     theta_rad = linspace(0,180,M)/180*pi;
@@ -72,6 +73,6 @@ function polar_plot2(p, c, logscale)
     
     axis equal
     axis off
-    axis([-axis_unit+1, axis_unit+1, -axis_unit, axis_unit])
+%     axis([-axis_unit+1, axis_unit+1, -axis_unit, axis_unit])
     % legend()
 end

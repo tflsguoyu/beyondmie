@@ -7,16 +7,18 @@ addpath(genpath('src'));
 
 %% User defined parameters
 wavelength = wl;
-fn_mat = sprintf('data_%d.mat', round(wavelength*1000));
-fn_plot = sprintf('farfield_%d.jpg', round(wavelength*1000));
+fn_mat = ['data_' num2str(ior) '.mat'];
+fn_plot = ['farfield_' num2str(ior) '.jpg'];
 
 %% Pre defined parameters
 unit = 1e-6; % Convert um to m
 wavelength = wavelength * unit;
 
-distance_scale = 0.1;
+distance_scale = 1;
 particles = readmatrix(fn_particles); % (x,y,z,radius,ior_real,ior_image)
+[N,~] = size(particles);
 particles(:,4) = particle_size;
+particles(:,5) = ior;
 particles(:,1:4) = particles(:,1:4) * unit;
 particles(:,1:3) = particles(:,1:3) * distance_scale;
  

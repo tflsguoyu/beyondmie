@@ -16,10 +16,19 @@ fp2 = fp;
 load(['D:/gyDocuments/4_waveoptics/results/out/' name3 '/data_R.mat']);
 fp3 = fp;
 
+sum(fp1)
+sum(fp2)
+sum(fp3)
+figure;hold on;
+plot(log(fp1),'Color', [0 0.4470 0.7410]);
+plot(log(fp2),'Color', [0.4660 0.6740 0.1880]);
+plot(log(fp3),'Color', [0.9290 0.6940 0.1250]);
+hold off;
+
 fig2 = figure('Position', [100 400 500 500]);
 hold on
 polar_plot3([fp1(:)';fp2(:)';fp3(:)'], [[0.4940 0.1840 0.5560];[0.4660 0.6740 0.1880];[0.8500 0.3250 0.0980]], 1);
-legend({'r=400nm', 'r=500nm','r=600nm'}, 'Location','northwest', 'FontSize',12,'TextColor','black');legend('boxoff')
+legend({'a_i=400nm', 'a_i=500nm','a_i=600nm'}, 'Location','northwest', 'FontSize',12,'TextColor','black');legend('boxoff')
 hold off
 saveas(gca, 'tmp.png');
 im = imread('tmp.png');

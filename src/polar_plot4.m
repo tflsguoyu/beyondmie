@@ -40,10 +40,16 @@ function polar_plot4(p, c, logscale)
 %     y = [0.518 0.518];
 %     annotation('textarrow',x,y,'FontSize',13,'Linewidth',2)
 %     annotation('textbox',[.51 .28 .7 .3],'EdgeColor','none','String','Forward','FontSize',15,'Linewidth',2)
-    x = [0.5 0.7];   % adjust length and location of arrow 
+    x = [0.55 0.8];   % adjust length and location of arrow 
     y = [0.33 0.33];
     annotation('textarrow',x,y,'FontSize',13,'Linewidth',2)
-    annotation('textbox',[.5 .1 .7 .3],'EdgeColor','none','String','Forward','FontSize',15,'Linewidth',2)
+    annotation('textbox',[.58 .1 .7 .3],'EdgeColor','none','String','Forward','FontSize',15,'Linewidth',2)
+
+
+%     x = [0.5 0.7];   % adjust length and location of arrow 
+%     y = [0.33 0.33];
+%     annotation('textarrow',x,y,'FontSize',13,'Linewidth',2)
+%     annotation('textbox',[.5 .1 .7 .3],'EdgeColor','none','String','Forward','FontSize',15,'Linewidth',2)
     
     
 	%% Plot phase functions
@@ -51,9 +57,10 @@ function polar_plot4(p, c, logscale)
     if logscale
      p = log(p)+13;
     end
-     polar_angles = 0:pi/180:pi;
-     intgrl = trapz(polar_angles, (p.*repmat(sin(polar_angles),[N,1]))');
-     p = p./repmat(intgrl', [1,M]);
+%      polar_angles = 0:pi/180:pi;
+%      intgrl = trapz(polar_angles, (p.*repmat(sin(polar_angles),[N,1]))');
+%      p = p./repmat(intgrl', [1,M]);
+    p = p/10;
        
     % Generate upper half phase function in polar->(x,y) coordinate
     theta_rad = linspace(0,180,M)/180*pi;
