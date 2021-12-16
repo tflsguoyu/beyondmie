@@ -24,13 +24,13 @@
 
 % run('multiple_particle_simulation_aniso.m')
 
-% close all; clear;
-% fn_particles = 'paras/particles_500.txt';
-% size_scale = 5/3;
-% distance_scale = 0.1;
-% out_dir = '../results/out/time_1/';
-% num_simul = 1;
-% flag = 'red'; run('multiple_particle_simulation.m')
+close all; clear;
+fn_particles = 'paras/particles_100.txt';
+size_scale = 5/3;
+distance_scale = 0.2;
+out_dir = '../results/out/time_1/';
+num_simul = 100;
+flag = 'red'; run('multiple_particle_simulation.m')
 % 
 % close all; clear;
 % fn_particles = 'paras/particles_50.txt';
@@ -41,7 +41,7 @@
 % 
 % close all; clear;
 % fn_particles = 'paras/particles_50.txt';
-% size_scale = 5/3;
+% size_scale = 1;
 % out_dir = '../results/out/multiple_N50_500nm/';
 % num_simul = 50;
 % flag = 'red'; run('multiple_particle_simulation.m')

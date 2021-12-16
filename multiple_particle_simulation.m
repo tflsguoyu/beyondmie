@@ -76,7 +76,19 @@ for i = 1:num_simul
     Ct
     %% Save to disk
     save([out_dir fn_mat], 'particles', 'wavelength', 'lmax', 'p_NM', 'fp', 'Cs', 'Ct');
-    if mod(i,num_simul)==0
+    fig2 = figure('Position', [100 400 500 500]);
+    hold on
+    polar_plot14(fp(:)', [0.4940 0.1840 0.5560], 1);
+%     legend({'N=20'}, 'Location','northwest', 'FontSize',12,'TextColor','black');legend('boxoff')
+    hold off
+    saveas(gca, [out_dir 'phase' num2str(i) '.png']);
+%     im = imread([out_dir 'tmp.png']);
+%     [h,w,~] = size(im);
+%     a_crop = round(h * 0.13); shift1 = -60; shift2 = 0;
+%     im = im(a_crop+1+shift1: end-a_crop+shift1,   a_crop+1+shift2: end-a_crop+shift2,:);
+%     imwrite(im, [out_dir 'phase' num2str(i) '.png']);
+    close all;
+    if mod(i,1)==0
         save_plot([out_dir fn_plot(1:end-4) '_' num2str(i) '.jpg'], particles, p_NM, fp);
     end
 
