@@ -1,0 +1,109 @@
+/*!
+@mainpage CUDA-accelerated Electromagnetic scattering for Large Ensembles of Spheres
+
+CELES (latin for 'fast ship') is a MATLAB/CUDA MEX implementation of the 
+multi-sphere T-matrix method (also known as Generalized Multiparticle Mie 
+method).
+The main aim of the software is to rigorously solve electrodynamic problems 
+comprising extremely large numbers of spherical scatterers. As such, it can be 
+applied to study light propagation in macroscopic aggregates of particles in 
+order to derive their bulk transport properties.
+
+@image html beam_on_2500_spheres.png ""
+
+The scattered electric field is represented as a superposition of 
+spherical vector wave functions relative to the sphere's center coordinates. 
+The coefficients of this expansion are the unknowns of the problem. 
+To calculate them, a system of linear equations needs to be solved.
+
+@section why Why another software?
+There are already excellent codes for the simulation of electromagnetic 
+particles at multiple spherical objects. For example, the 
+[MSTM](http://www.eng.auburn.edu/~dmckwski/scatcodes/)
+Fortran code by Daniel Mackowski can run either on a 
+single machine or on a cluster. 
+A collection of more light scattering codes can be found at Thomas
+Wriedt's 
+[scattport](http://www.scattport.org/index.php/light-scattering-software) 
+homepage.
+With the CELES toolbox we want to add a software that runs with high 
+computational performance 
+on workstation computers with suitable graphics processing units. The key 
+feature of the CELES software 
+is to run the costly matrix-vector multiplications in the iterative solving of 
+the system of linear equations 
+in parallel on the GPU. In addition, the convergence is accelerated by means of 
+a block-diagonal preconditioner.
+
+@section requirements Requirements
+In order to run CELES, the following software (in addition to MATLAB) should be 
+installed on your system:
+ - the [CUDA toolkit](https://developer.nvidia.com/cuda-downloads).
+ - a [C++ compiler](https://it.mathworks.com/support/compilers.html) which is 
+supported by MATLAB in combination with the given CUDA version.
+
+You can check which CUDA version you need to install by running the command 
+`gpuDevice` in MATLAB and looking for `ToolkitVersion` in the output.
+
+CELES has been successfully tested on Linux using the built-in gcc compiler and 
+on Windows with the following software combinations: MATLAB R2016b + CUDA 7.5 + 
+MS Visual Studio 2013 and MATLAB R2017a + CUDA 8 + MS Visual Studio 2013. 
+MS Visual Studio 2013 can be downloaded 
+[here](https://www.microsoft.com/en-us/download/details.aspx?id=48138).
+
+In order to fully take advantage of preconditioned iterative solvers we 
+recommend running CELES on a workstation with sufficient RAM (~several 10GB for 
+10000+ scattering particles).
+
+@section installation Getting started
+CELES can be installed via cloning the [GitHub 
+repository](https://github.com/disordered-photonics/celes) with
+```{.sh}
+git clone git@github.com:disordered-photonics/celes.git
+```
+or by downloading and extracting one of the stable
+[releases](https://github.com/disordered-photonics/celes/releases). Please note 
+that the releases do not always represent the most up to date version.
+
+In MATLAB, remember to add CELES to your search path with
+```{.m}
+addpath(genpath('path/to/celes/src'));
+```
+
+As an example input you can execute the `CELES_MAIN` script. Comments in the 
+script explain how the simulation parameters are specified. Alternatively, you 
+can use the `CELES_model_wizard` app, a GUI that helps in the specification of 
+the simulation parameters.
+
+@image html screenshot_gui.png ""
+
+@section contact Contact
+For any questions regarding the software, please contact
+[Amos Egel](https://www.lti.kit.edu/mitarbeiter_5812.php),
+[Lorenzo Pattelli](http://www.lens.unifi.it/index.php?include=about_us/people&active=about_us&menu=about_us/people/people_menu&keyword=Pattelli&source=people&active_people=P)
+or [Giacomo Mazzamuto](http://www.lens.unifi.it/index.php?include=about_us/people&active=about_us&menu=about_us/people/people_menu&keyword=Giacomo+Mazzamuto&active_people=M)
+
+@section citing Citing
+If you use CELES, please cite it as follows:
+
+A. Egel, L. Pattelli, G. Mazzamuto, D. S. Wiersma, and U. Lemmer, 
+"CELES: CUDA-accelerated simulation of electromagnetic scattering by large ensembles of spheres," 
+J. Quant. Spectrosc. Radiat. Transf., vol. 199, pp. 103-110, 2017. doi: [10.1016/j.jqsrt.2017.05.010](https://doi.org/10.1016/j.jqsrt.2017.05.010)
+
+
+@section acknowledgments Credits
+CELES was initiated by Amos Egel, Lorenzo Pattelli and Giacomo Mazzamuto. In addition, Alan Zhan and Taylor Fryett have contributed code to the project. We thank Yasuhiko Okada and Aso Rahimzadegan for valuable comments and bug reports.
+
+CELES uses the following codes from other programmers:
+
+ - 
+[polarplot3d](https://it.mathworks.com/matlabcentral/fileexchange/13200-3d-polar
+-plot/content/polarplot3d.m) from Kenn Gerard
+ - 
+[wigner3j](https://it.mathworks.com/matlabcentral/fileexchange/20619-wigner3j-
+symbol) from Kobi Kraus
+ - Iterative solvers based on the [Templates for the Solution of Linear 
+Systems](http://it.mathworks.com/matlabcentral/fileexchange/2158-templates-for-
+the-solution-of-linear-systems)
+
+*/

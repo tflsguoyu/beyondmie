@@ -1,18 +1,24 @@
-# waveoptics
+# Beyond Mie Theory: Systematic Computation of Bulk Scattering Parameters based on Microphysical Wave Optics
 
-### Requirements (https://github.com/disordered-photonics/celes)
+[Yu Guo](https://www.ics.uci.edu/~yug10/), [Adrian Jarabo](http://giga.cps.unizar.es/~ajarabo/), [Shuang Zhao](https://shuangz.com/). 
+In ACM Transactions on Graphics (SIGGRAPH Asia 2021). 
+[[Project page]](https://shuangz.com/projects/beyond_mie-sa21/)
+
+
+### Requirements
+Our codes is relied on [CELES](https://github.com/disordered-photonics/celes).
 In order to run CELES, the following software (in addition to MATLAB) should be installed on your system:
 * the [CUDA toolkit](https://developer.nvidia.com/cuda-downloads) matching the `ToolkitVersion` specified when running `gpuDevice` in MATLAB.
 * a [C++ compiler](https://it.mathworks.com/support/compilers.html) which is supported by MATLAB in combination with the given CUDA version.
 
-### Test (running time: within 1 minute)
-Checkout the codes, and run `script_for_test.m` to see if there's any error or not. The output image `farfield1.jpg` should be in the folder `../out/single/`. You can verify it by comparing with `out_ref/single/farfield1.jpg`. 
+We have precompiled cuda files included in `src/celes/src/scattering/*.mexw64`
 
-### Run (running time: ~10 hours)
-If everything works, you can run `script_to_run.m`. The results will be saved in `../out/multiple/`.
+### Run
+Run `script_to_run.m`. The results will be saved in `out/`.
 
 ### Notes
-It will automatically compile CUDA MEX file during the first time of using a new lmax, and that will take some time.
+If you download CELES from https://github.com/disordered-photonics/celes, 
+it will automatically compile CUDA MEX file during the first time of using a new lmax, and that will take some time.
 e.g.
 ```
 compiling CUDA-code with lmax=8.
