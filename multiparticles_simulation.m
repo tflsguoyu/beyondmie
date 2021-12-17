@@ -58,7 +58,7 @@ for i = 1:num_simul
 
     %% Save temporary files to disk
     save(tmp_file, 'particles', 'wave_length', 'lmax', 'p_NM', 'fp', 'Cs', 'Ct');
-    if mod(i,num_simul)>0
+    if mod(i,num_simul) >= 0
         save_plot(tmp_plot, particles, p_NM, fp);
     end
 
