@@ -4,7 +4,7 @@
 
 In ACM Transactions on Graphics (SIGGRAPH Asia 2021). 
 
-<img src="https://github.com/tflsguoyu/proceduralmat_suppl/blob/master/github/teaser.jpg" width="750px">
+<img src="https://github.com/tflsguoyu/beyondmie_suppl/blob/master/github/teaser.jpg" width="750px">
 
 [[Paper](https://github.com/tflsguoyu/beyondmie_paper/blob/master/beyondmie.pdf)]
 [[Code](https://github.com/tflsguoyu/beyondmie/)]
