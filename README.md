@@ -4,6 +4,12 @@
 
 In ACM Transactions on Graphics (SIGGRAPH Asia 2021). 
 
+<img src="https://github.com/tflsguoyu/proceduralmat_suppl/blob/master/github/teaser.jpg" width="750px">
+
+[[Paper](https://github.com/tflsguoyu/beyondmie_paper/blob/master/beyondmie.pdf)]
+[[Code](https://github.com/tflsguoyu/beyondmie/)]
+[Fastforward on Siggraph Asia 2021 ([Video](https://youtu.be/zl5zSoqKTwo))([Slides](https://github.com/tflsguoyu/beyondmie_suppl/blob/master/github/beyondmie_ff.pptx))] \
+[Presentation on Siggraph Asia 2021 ([Video](https://youtu.be/QiiEasWR1-E))([Slides](https://github.com/tflsguoyu/beyondmie_suppl/blob/master/github/beyondmie_main.pptx))]
 
 ### Requirements
 Our codes is relied on [CELES](https://github.com/disordered-photonics/celes).
@@ -25,3 +31,4 @@ compiling CUDA-code with lmax=8.
 Building with 'nvcc'.
 MEX completed successfully.
 ```
+Welcome to report bugs and leave comments (Yu Guo: tflsguoyu@gmail.com)
